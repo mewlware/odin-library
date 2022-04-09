@@ -2,8 +2,6 @@
 const libraryWrapper = document.querySelector(".library-wrapper")
 const showAddFormBtn = document.querySelector(".show-add")
 const addBtn = document.querySelector(".add")
-const editBtn = document.querySelector(".edit")
-const stopEditBtn = document.querySelector(".stop-edit")
 
 let bookForm = document.querySelector("#bookForm")
 
@@ -12,6 +10,7 @@ let books = libraryWrapper.querySelectorAll(":scope > .book");
 // Initialize empty library (Object)
 let library = {}
 let indexArray = []
+let tempLibrary = {}
 
 // Book Object constructor
 function Book(title, author, read) {
@@ -84,8 +83,17 @@ function addBookDOM(index, title, author, read) {
     readDOM.classList.add('readData', readData);
     readDOM.textContent = readData;
 
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.classList.add('edit');
+
+    const stopEditBtn = document.createElement("button");
+    stopEditBtn.textContent = "Stop Edit";
+    stopEditBtn.classList.add('stop-edit', 'hidden');
+    stopEditBtn.disabled = true;
+
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = 'X'
+    deleteBtn.textContent = 'X';
     deleteBtn.classList.add('delete', 'hidden');
     deleteBtn.disabled = true;
 
@@ -93,8 +101,13 @@ function addBookDOM(index, title, author, read) {
     newBookDOM.appendChild(authorDOM);
     newBookDOM.appendChild(readDOM);
     newBookDOM.appendChild(deleteBtn);
+    newBookDOM.appendChild(editBtn);
+    newBookDOM.appendChild(stopEditBtn);
 
     libraryWrapper.appendChild(newBookDOM);
+
+    editBtn.addEventListener('click', editMode);
+    stopEditBtn.addEventListener('click', viewMode);
 }
 
 function submitBook() {
@@ -154,7 +167,11 @@ function enableShowAddFormBtn() {
     showAddFormBtn.disabled = false;
 }
 
-function toggleEditBtns() {
+function toggleEditBtns(e) {
+    let book = e.target.parentElement
+    let editBtn = book.querySelector('.edit')
+    let stopEditBtn = book.querySelector('.stop-edit')
+
     editBtn.classList.toggle('hidden');
     stopEditBtn.classList.toggle('hidden');
 
@@ -167,22 +184,22 @@ function toggleEditBtns() {
     }
 }
 
-function enableEditing() {
-    books.forEach((book) => { 
-        for (i = 0; i < book.children.length; i++) {
-            if (book.children[i].classList.contains('title')) {
-                book.children[i].contentEditable = "true";
-            } else if (book.children[i].classList.contains('author')) {
-                book.children[i].contentEditable = "true";
-            } else if (book.children[i].classList.contains('delete')) {
-                book.children[i].disabled = false;
-                book.children[i].classList.toggle('hidden')
-                enableDeleteBtn(book.children[i])
-            } else if (book.children[i].classList.contains('readData')) {
-                enableToggleRead(book.children[i])
-            }
+function enableEditing(e) {
+    let book = e.target.parentElement
+
+    for (i = 0; i < book.children.length; i++) {
+        if (book.children[i].classList.contains('title')) {
+            book.children[i].contentEditable = "true";
+        } else if (book.children[i].classList.contains('author')) {
+            book.children[i].contentEditable = "true";
+        } else if (book.children[i].classList.contains('delete')) {
+            book.children[i].disabled = false;
+            book.children[i].classList.toggle('hidden')
+            enableDeleteBtn(book.children[i])
+        } else if (book.children[i].classList.contains('readData')) {
+            enableToggleRead(book.children[i])
         }
-    })
+    }
 }
 
 function disableEditing() {
@@ -199,19 +216,6 @@ function disableEditing() {
             }
         }
     })
-}
-
-function editMode() {
-    books = libraryWrapper.querySelectorAll(":scope > .book");
-    enableEditing();
-    toggleEditBtns();
-    disableShowAddFormBtn();
-}
-
-function viewMode() {
-    disableEditing();
-    toggleEditBtns();
-    enableShowAddFormBtn();
 }
 
 function enableToggleRead(currentBookRead) {
@@ -251,10 +255,29 @@ function toggleShowForm() {
     toggleDisableForm();
 }
 
-// Event Listeners
-editBtn.addEventListener('click', editMode)
+function saveEditedContent(e) {
+    let tempBook = new Book(title, author, read)
+}
+
+function enableSaveEditedContent(editableContent) {
+    editableContent.addEventListener('input', saveEditedContent)
+}
+
+function editMode(e) {
+    books = libraryWrapper.querySelectorAll(":scope > .book");
+    enableEditing(e);
+    toggleEditBtns(e);
+    disableShowAddFormBtn();
+}
+
+function viewMode(e) {
+    disableEditing(e);
+    toggleEditBtns(e);
+    enableShowAddFormBtn();
+}
+
+
 showAddFormBtn.addEventListener('click', toggleShowForm)
-stopEditBtn.addEventListener('click', viewMode)
 
 addBtn.addEventListener('click', (evt) => {
     evt.preventDefault()
