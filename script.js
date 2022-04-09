@@ -57,9 +57,16 @@ function deleteBookObject(index) {
 
 function addBookDOM(index, title, author, read) {
     const newBookDOM = document.createElement("article");
+    let readData = ""
+    if (read) {
+        readData = "read"
+    } else if (!read) {
+        readData = "not-read"
+    }
+
     newBookDOM.classList.add('book');
     newBookDOM.dataset.index = index;
-    newBookDOM.dataset.read = read;
+    newBookDOM.dataset.read = readData;
 
     const titleDOM = document.createElement("h3");
     titleDOM.classList.add('title');
@@ -70,8 +77,9 @@ function addBookDOM(index, title, author, read) {
     authorDOM.textContent = author;
 
     const readDOM = document.createElement("p");
-    readDOM.classList.add('read');
-    readDOM.textContent = read;
+    
+    readDOM.classList.add('readData', readData);
+    readDOM.textContent = readData;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = 'X'
@@ -156,6 +164,8 @@ function enableEditing() {
                 book.children[i].disabled = false;
                 book.children[i].classList.toggle('hidden')
                 enableDeleteBtn(book.children[i])
+            } else if (book.children[i].classList.contains('readData')) {
+                enableToggleRead(book.children[i])
             }
         }
     })
@@ -170,6 +180,8 @@ function disableEditing() {
                 book.children[i].contentEditable = "false";
             } else if (book.children[i].classList.contains('delete')) {
                 disableDeleteBtn(book.children[i])
+            } else if (book.children[i].classList.contains('read')) {
+                disableToggleRead(book.children[i])
             }
         }
     })
@@ -188,7 +200,29 @@ function viewMode() {
     enableAddBtn();
 }
 
-// Starting 
+function enableToggleRead(currentBookRead) {
+    currentBookRead.addEventListener('click', () => {
+        toggleRead(currentBookRead);
+    })
+}
+
+function disableToggleRead(currentBookRead) {
+    currentBookRead.removeEventListener('click', toggleRead)
+}
+
+function toggleRead(currentBookRead) {
+    currentBookRead.classList.toggle('read');
+    currentBookRead.classList.toggle('not-read');
+    let currentBook = currentBookRead.parentElement
+
+    if (currentBook.dataset.read == "read") {
+        currentBook.dataset.read = "not-read"
+        currentBookRead.textContent = "not-read"
+    } else if (currentBook.dataset.read == "not-read") {
+        currentBook.dataset.read = "read"
+        currentBookRead.textContent = "read"
+    }
+}
 
 // Event Listeners
 editBtn.addEventListener('click', editMode)
