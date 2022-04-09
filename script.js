@@ -83,15 +83,6 @@ function addBookDOM(index, title, author, read) {
     readDOM.classList.add('readData', readData);
     readDOM.textContent = readData;
 
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.classList.add('edit');
-
-    const stopEditBtn = document.createElement("button");
-    stopEditBtn.textContent = "Stop Edit";
-    stopEditBtn.classList.add('stop-edit', 'hidden');
-    stopEditBtn.disabled = true;
-
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = 'X';
     deleteBtn.classList.add('delete', 'hidden');
@@ -101,13 +92,12 @@ function addBookDOM(index, title, author, read) {
     newBookDOM.appendChild(authorDOM);
     newBookDOM.appendChild(readDOM);
     newBookDOM.appendChild(deleteBtn);
-    newBookDOM.appendChild(editBtn);
-    newBookDOM.appendChild(stopEditBtn);
 
     libraryWrapper.appendChild(newBookDOM);
 
-    editBtn.addEventListener('click', editMode);
-    stopEditBtn.addEventListener('click', viewMode);
+    newBookDOM.addEventListener('dblclick', editMode);
+    newBookDOM.addEventListener('focusout', viewMode);
+
 }
 
 function submitBook() {
@@ -167,26 +157,8 @@ function enableShowAddFormBtn() {
     showAddFormBtn.disabled = false;
 }
 
-function toggleEditBtns(e) {
-    let book = e.target.parentElement
-    let editBtn = book.querySelector('.edit')
-    let stopEditBtn = book.querySelector('.stop-edit')
-
-    editBtn.classList.toggle('hidden');
-    stopEditBtn.classList.toggle('hidden');
-
-    if (editBtn.classList.contains('hidden')) {
-        editBtn.disabled = true;
-        stopEditBtn.disabled = false;
-    } else if (stopEditBtn.classList.contains('hidden')) {
-        stopEditBtn.disabled = true;
-        editBtn.disabled = false;
-    }
-}
-
-function enableEditing(e) {
-    let book = e.target.parentElement
-
+function enableEditing(book) {
+    console.log("enable editing" + book)
     for (i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "true";
@@ -202,20 +174,19 @@ function enableEditing(e) {
     }
 }
 
-function disableEditing() {
-    books.forEach((book) => {
-        for (i = 0; i < book.children.length; i++) {
-            if (book.children[i].classList.contains('title')) {
-                book.children[i].contentEditable = "false";
-            } else if (book.children[i].classList.contains('author')) {
-                book.children[i].contentEditable = "false";
-            } else if (book.children[i].classList.contains('delete')) {
-                disableDeleteBtn(book.children[i])
-            } else if (book.children[i].classList.contains('read')) {
-                disableToggleRead(book.children[i])
-            }
+function disableEditing(book) {
+    console.log("disable editing" + book)
+    for (i = 0; i < book.children.length; i++) {
+        if (book.children[i].classList.contains('title')) {
+            book.children[i].contentEditable = "false";
+        } else if (book.children[i].classList.contains('author')) {
+            book.children[i].contentEditable = "false";
+        } else if (book.children[i].classList.contains('delete')) {
+            disableDeleteBtn(book.children[i])
+        } else if (book.children[i].classList.contains('read')) {
+            disableToggleRead(book.children[i])
         }
-    })
+    }
 }
 
 function enableToggleRead(currentBookRead) {
@@ -264,15 +235,14 @@ function enableSaveEditedContent(editableContent) {
 }
 
 function editMode(e) {
+    console.log(e.currentTarget)
     books = libraryWrapper.querySelectorAll(":scope > .book");
-    enableEditing(e);
-    toggleEditBtns(e);
+    enableEditing(e.currentTarget);
     disableShowAddFormBtn();
 }
 
 function viewMode(e) {
-    disableEditing(e);
-    toggleEditBtns(e);
+    disableEditing(e.currentTarget);
     enableShowAddFormBtn();
 }
 
