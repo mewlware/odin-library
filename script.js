@@ -147,17 +147,6 @@ function disableDeleteBtn(button) {
     button.removeEventListener('click', deleteBtnWrapper);
 }
 
-function promptAddBook() {
-    let title = prompt("Title?");
-    let author = prompt("Author?");
-    let read = confirm("Read or Not? Ok = read, cancel = not");
-    let index = uniqueNewBookIndex();
-
-    addBookObject(index, title, author, read);
-    addBookDOM(index, title, author, read);
-    console.log(library)
-}
-
 function disabledShowAddFormBtn() {
     showAddFormBtn.disabled = true;
 }
