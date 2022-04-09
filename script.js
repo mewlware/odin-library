@@ -1,8 +1,11 @@
 // Query starting DOM elements
 const libraryWrapper = document.querySelector(".library-wrapper")
+const showAddFormBtn = document.querySelector(".show-add")
 const addBtn = document.querySelector(".add")
 const editBtn = document.querySelector(".edit")
 const stopEditBtn = document.querySelector(".stop-edit")
+
+let bookForm = document.querySelector("#bookForm")
 
 let books = libraryWrapper.querySelectorAll(":scope > .book");
 
@@ -53,14 +56,15 @@ function deleteBookObject(index) {
     delete library[index]
 }
 
-// Add book to DOM
+// DOM FUNCTIONS
+
 
 function addBookDOM(index, title, author, read) {
     const newBookDOM = document.createElement("article");
     let readData = ""
-    if (read) {
+    if (read == "yes") {
         readData = "read"
-    } else if (!read) {
+    } else if (read == "no") {
         readData = "not-read"
     }
 
@@ -93,6 +97,28 @@ function addBookDOM(index, title, author, read) {
 
     libraryWrapper.appendChild(newBookDOM);
 }
+
+function submitBook() {
+    let newBookData = new FormData(bookForm);
+    let index = uniqueNewBookIndex();
+    let title = "";
+    let author = "";
+    let read = "";
+
+    for(let [name, value] of newBookData) {
+        if (name == "get-title") {
+            title = value;
+        } else if (name == "get-author") {
+            author = value;
+        } else if (name == "get-read") {
+            alert("checking if it's read")
+            read = value;
+        }
+      }
+
+    addBookDOM(index, title, author, read)
+}
+
 
 // Delete book from DOM 
 
@@ -132,12 +158,12 @@ function promptAddBook() {
     console.log(library)
 }
 
-function disabledAddBtn() {
-    addBtn.disabled = true;
+function disabledShowAddFormBtn() {
+    showAddFormBtn.disabled = true;
 }
 
-function enableAddBtn() {
-    addBtn.disabled = false;
+function enableShowAddFormBtn() {
+    showAddFormBtn.disabled = false;
 }
 
 function toggleEditBtns() {
@@ -191,13 +217,13 @@ function editMode() {
     books = libraryWrapper.querySelectorAll(":scope > .book");
     enableEditing();
     toggleEditBtns();
-    disabledAddBtn();
+    disableShowAddFormBtn();
 }
 
 function viewMode() {
     disableEditing();
     toggleEditBtns();
-    enableAddBtn();
+    enableShowAddFormBtn();
 }
 
 function enableToggleRead(currentBookRead) {
@@ -224,7 +250,25 @@ function toggleRead(currentBookRead) {
     }
 }
 
+function toggleDisableForm() {
+    if (bookForm.classList.contains('hidden')) {
+        addBtn.disabled = true; 
+    } else {
+        addBtn.disabled = false;
+    }
+}
+
+function toggleShowForm() {
+    bookForm.classList.toggle('hidden');
+    toggleDisableForm();
+}
+
 // Event Listeners
 editBtn.addEventListener('click', editMode)
-addBtn.addEventListener('click', promptAddBook)
+showAddFormBtn.addEventListener('click', toggleShowForm)
 stopEditBtn.addEventListener('click', viewMode)
+
+addBtn.addEventListener('click', (evt) => {
+    evt.preventDefault()
+    submitBook()
+})

@@ -5,9 +5,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>Library</title>
 </head>
 <body>
-    test
+    <header class="header">
+        <h1 class="title">Library</h1>
+        <nav>
+            <ul>
+                <li><button class="show-add">Add</button></li>
+                <li><button class="edit">Edit</button></li>
+                <li><button class="stop-edit hidden" disabled>Stop Editing</button></li>
+                <li>About</li>
+            </ul>
+        </nav>
+    </header>
+    <aside class="add-form">
+        <form action="#" method="POST" id="bookForm" class="hidden">
+            <h2 class="form-title">Book Information</h2>
+            <div class="form-input">
+                <label for="get-title">
+                    Book Title:
+                    <abbr title="required" aria-required="true"></abbr>
+                </label>
+                <input type="text" required="required" id="get-title" name="get-title">
+            </div>
+            <div class="form-input">
+                <label for="get-author">
+                    Author:
+                    <abbr title="required" aria-required="true"></abbr>
+                </label>
+                <input type="text" required="required" id="get-author" name="get-author">
+            </div>
+            <div>
+                <fieldset>
+                    <legend>Book Read?</legend>
+                    <ul>
+                        <li>
+                            <label for="read-yes">Yes</label> 
+                            <input type="radio" id="read-yes" name="get-read" value="yes" checked>
+                        </li>
+                        <li>
+                            <label for="read-no">No</label>
+                            <input type="radio" id="read-no" name="get-read" value="no">
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+            <button type="submit" class="add">Add Book</button>
+        </form>
+    </aside>
+    <main>
+        <h2 class="section-title">Books</h2>
+        <div class="library-wrapper">
+            <article class="book">
+                <h3 class="title">Brave New World</h3>
+                <p class="author">Aldous Huxley</p>
+                <p class="readData">Read</p>
+            </article>
+            <article class="book">
+                <h3 class="title">The Bell Jar</h3>
+                <p class="author">Slyvia Plath</p>
+                <p class="readData">Not Read</p>
+            </article>
+            <article class="book">
+                <h3 class="title">Atomic Habits</h3>
+                <p class="author">James Clear</p>
+                <p class="readData">Read</p>
+            </article>
+        </div>
+    </main>
+    <footer></footer>
 </body>
 </html>
