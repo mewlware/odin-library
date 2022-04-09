@@ -35,7 +35,6 @@ function uniqueNewBookIndex() {
 
     while (indexExists == true) {
         index = randomIntIndex(MAX)
-        console.log(index)
         if (!(index in library)) {
             indexExists = false
         }
@@ -147,7 +146,7 @@ function disableDeleteBtn(button) {
     button.removeEventListener('click', deleteBtnWrapper);
 }
 
-function disabledShowAddFormBtn() {
+function disableShowAddFormBtn() {
     showAddFormBtn.disabled = true;
 }
 
