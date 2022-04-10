@@ -1,0 +1,100 @@
+@font-face {
+    font-family: "Mango Grotesque";
+    src: url("assets/Mango Grotesque-VF.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+  }
+
+:root {
+    font-size: 36px;
+}
+
+:root, button {
+    font-family: 'Mango Grotesque', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid blue;
+}
+
+li {
+    list-style-type: none;
+}
+
+.hidden {
+    display: none;
+}
+
+/* SKELETON */
+
+body {
+    padding: 84px;
+}
+
+header.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 84px;
+}
+
+/* HEADER CONTENT */
+
+nav > ul {
+    display: flex;
+    text-transform: capitalize;
+
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+header > h1 {
+    text-transform: capitalize;
+    font-size: 3rem;
+}
+
+header button {
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+/* MAIN CONTENT */
+.section-title {
+    margin-bottom: 1rem;
+
+}
+
+.library-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    text-transform: uppercase;
+}
+
+article.book {
+    display: flex;
+    margin-right: 60px;
+    margin-bottom: 0.6rem;
+    align-items: baseline;
+}
+
+.book > .title {
+    line-height: 3rem;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-right: 12px;
+}
+
+.book .author {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    margin-right: 12px;
+}
+
+.book .readData {
+    font-size: 1.5rem;
+    font-weight: 200;
+    line-height: 1.5rem;
+}
