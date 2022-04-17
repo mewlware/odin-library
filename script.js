@@ -90,6 +90,9 @@ function addBookDOM(index, title, author, read) {
     deleteBtn.textContent = 'DELETE';
     deleteBtn.classList.add('delete', 'hidden', 'btn-delete');
     deleteBtn.disabled = true;
+    deleteBtn.addEventListener('click', () => {
+        deleteBtnWrapper(button)
+    })
 
     newBookDOM.appendChild(titleDOM);
     newBookDOM.appendChild(authorDOM);
@@ -141,15 +144,11 @@ function deleteBtnWrapper(button) {
 function enableDeleteBtn(button) {
     button.disabled = false;
     button.classList.remove('hidden');
-    button.addEventListener('click', () => {
-        deleteBtnWrapper(button)
-    });
 }
 
 function disableDeleteBtn(button) {
     button.disabled = true;
     button.classList.add('hidden');
-    button.removeEventListener('click', deleteBtnWrapper);
 }
 
 function deleteOrViewMode(e) {
@@ -200,9 +199,7 @@ function disableEditing(book) {
 }
 
 function toggleRead(e) {
-    console.log("toggle read")
-    console.log(e.currentTarget)
-    currentBookRead = e.currentTarget
+    currentBookRead = e.target
     currentBookRead.classList.toggle('read');
     currentBookRead.classList.toggle('not-read');
     let currentBook = currentBookRead.parentElement
