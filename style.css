@@ -3,21 +3,36 @@
     src: url("assets/Mango Grotesque-VF.ttf") format("truetype");
     font-weight: 100 900;
     font-style: normal;
-  }
+}
+
+@font-face {
+    font-family: "HK Grotesk";
+    src: url("assets/HKGrotesk-ExtraBold.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "HK Grotesk";
+    src: url("assets/HKGrotesk-Medium.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
 
 :root {
     font-size: 36px;
+    font-family: 'Mango Grotesque', sans-serif;
 }
 
-:root, button {
-    font-family: 'Mango Grotesque', sans-serif;
+input {
+    font-family: 'HK Grotesk';
+    font-weight: normal;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px solid blue;
 }
 
 li {
@@ -29,41 +44,178 @@ li {
 }
 
 /* SKELETON */
+html::before {
+    content: "";
+    position: fixed;
+    height: 30vh;
+    width: 100%;
+    background-image: linear-gradient(hsla(240, 100%, 50%, 1), 15%, transparent);
+}
 
 body {
+    min-height: 100vh;
     padding: 84px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%230000ff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E"),
+    linear-gradient(hsl(240, 100%, 50%), 30%, hsl(240, 35%, 93%));
+    background-blend-mode: darken;
 }
 
 header.header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 84px;
+    position: sticky;
+    top: 42px;
+    margin-bottom: 120px;
+}
+
+aside {
+    margin-bottom: 120px;
 }
 
 /* HEADER CONTENT */
-
-nav > ul {
-    display: flex;
-    text-transform: capitalize;
-
-    font-size: 2rem;
-    font-weight: 200;
+header {
+    color:hsl(240, 100%, 93%);
 }
 
 header > h1 {
     text-transform: capitalize;
     font-size: 3rem;
+    font-weight: 900;
 }
 
 header button {
+    background-color: transparent;
+    border: 2px solid hsl(240, 100%, 93%);
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: hsl(240, 100%, 93%);
+
+    margin-right: 24px;
+}
+
+nav > ul {
+    display: flex;
+    text-transform: capitalize;
+
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+/* FORM CONTENT */
+form {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 1rem;
+    color: blue;
+}
+
+form > h2 {
     font-size: 2rem;
-    font-weight: 200;
+    font-weight: 900;
+    margin-bottom: 32px;
+}
+
+fieldset {
+    border: none;
+}
+
+fieldset > ul {
+    display: flex;
+    gap: 24px;
+}
+
+fieldset li {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+li > label {
+    color: blue;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+form > section {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+section > .form-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+    margin-right: 42px;
+    flex: auto;
+}
+
+section > .form-input:last-of-type {
+    margin-right: 0px;
+}
+
+input[type=text] {
+    border: 2px solid blue;    
+    border-radius: 50px 50px;
+    background-color: transparent;
+    height: 2rem;
+    padding: 0px 24px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: currentColor;
+}
+
+input[type=radio] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: none;
+    margin: 0;
+
+    font: inherit;
+    color: currentColor;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+
+    display: grid;
+    place-content: center;
+}
+
+input[type="radio"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em blue;
+  }
+
+
+input[type="radio"]:checked::before {
+    transform: scale(1);
+  }
+
+
+form button {
+    font-size: 1.2rem;
+    font-family: 'HK Grotesk', sans-serif;
+    font-weight: 900;
+    height: 2rem;
+    width: 300px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(rgb(0, 0, 255), 30%, rgb(104, 104, 255));    ;
+    color: hsl(240, 100%, 93%);
 }
 
 /* MAIN CONTENT */
 .section-title {
     margin-bottom: 1rem;
-
 }
 
 .library-wrapper {
@@ -80,7 +232,7 @@ article.book {
 }
 
 .book > .title {
-    line-height: 3rem;
+    line-height: 3.5rem;
     font-size: 4rem;
     font-weight: 800;
     margin-right: 12px;
@@ -89,12 +241,24 @@ article.book {
 .book .author {
     font-weight: 500;
     font-size: 1.5rem;
-    line-height: 1.5rem;
     margin-right: 12px;
 }
 
 .book .readData {
     font-size: 1.5rem;
     font-weight: 200;
-    line-height: 1.5rem;
+}
+
+.btn-inner {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 200;
+}
+
+article[data-read="read"] {
+    color: blue;
+}
+
+article[data-read="not-read"]{
+    color: hsl(240, 100%, 70%);
 }
