@@ -69,23 +69,26 @@ function addBookDOM(index, title, author, read) {
     newBookDOM.classList.add('book');
     newBookDOM.dataset.index = index;
     newBookDOM.dataset.read = readData;
+    newBookDOM.setAttribute("tabindex", "0");
 
     const titleDOM = document.createElement("h3");
     titleDOM.classList.add('title');
     titleDOM.textContent = title;
+    titleDOM.setAttribute("tabindex", "0");
 
     const authorDOM = document.createElement("p");
     authorDOM.classList.add('author');
     authorDOM.textContent = author;
+    authorDOM.setAttribute("tabindex", "0");
 
     const readDOM = document.createElement("p");
-    
-    readDOM.classList.add('readData', readData);
+    readDOM.classList.add('readData', readData, 'hidden');
     readDOM.textContent = readData;
+    readDOM.addEventListener('click', toggleRead)
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = 'X';
-    deleteBtn.classList.add('delete', 'hidden');
+    deleteBtn.textContent = 'DELETE';
+    deleteBtn.classList.add('delete', 'hidden', 'btn-delete');
     deleteBtn.disabled = true;
 
     newBookDOM.appendChild(titleDOM);
@@ -95,8 +98,8 @@ function addBookDOM(index, title, author, read) {
 
     libraryWrapper.appendChild(newBookDOM);
 
-    newBookDOM.addEventListener('dblclick', editMode);
-    newBookDOM.addEventListener('focusout', viewMode);
+    newBookDOM.addEventListener('focus', editMode, true);
+    newBookDOM.addEventListener('blur', deleteOrViewMode, true);
 
 }
 
@@ -113,7 +116,6 @@ function submitBook() {
         } else if (name == "get-author") {
             author = value;
         } else if (name == "get-read") {
-            alert("checking if it's read")
             read = value;
         }
       }
@@ -130,6 +132,7 @@ function deleteBookDOM(index) {
 }
 
 function deleteBtnWrapper(button) {
+    console.log("delete")
     index = button.parentElement.dataset.index;
     deleteBookDOM(index);
     deleteBookObject(index);
@@ -149,6 +152,13 @@ function disableDeleteBtn(button) {
     button.removeEventListener('click', deleteBtnWrapper);
 }
 
+function deleteOrViewMode(e) {
+    console.log(e.Target)
+    console.log(e.currentTarget)
+    viewMode(e)
+}
+
+
 function disableShowAddFormBtn() {
     showAddFormBtn.disabled = true;
 }
@@ -158,7 +168,6 @@ function enableShowAddFormBtn() {
 }
 
 function enableEditing(book) {
-    console.log("enable editing" + book)
     for (i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "true";
@@ -169,9 +178,10 @@ function enableEditing(book) {
             book.children[i].classList.toggle('hidden')
             enableDeleteBtn(book.children[i])
         } else if (book.children[i].classList.contains('readData')) {
-            enableToggleRead(book.children[i])
+            book.children[i].classList.remove('hidden')
         }
     }
+    console.log("enable editing" + book)
 }
 
 function disableEditing(book) {
@@ -183,23 +193,16 @@ function disableEditing(book) {
             book.children[i].contentEditable = "false";
         } else if (book.children[i].classList.contains('delete')) {
             disableDeleteBtn(book.children[i])
-        } else if (book.children[i].classList.contains('read')) {
-            disableToggleRead(book.children[i])
+        } else if (book.children[i].classList.contains('readData')) {
+            book.children[i].classList.add('hidden')
         }
     }
 }
 
-function enableToggleRead(currentBookRead) {
-    currentBookRead.addEventListener('click', () => {
-        toggleRead(currentBookRead);
-    })
-}
-
-function disableToggleRead(currentBookRead) {
-    currentBookRead.removeEventListener('click', toggleRead)
-}
-
-function toggleRead(currentBookRead) {
+function toggleRead(e) {
+    console.log("toggle read")
+    console.log(e.currentTarget)
+    currentBookRead = e.currentTarget
     currentBookRead.classList.toggle('read');
     currentBookRead.classList.toggle('not-read');
     let currentBook = currentBookRead.parentElement
@@ -226,6 +229,11 @@ function toggleShowForm() {
     toggleDisableForm();
 }
 
+function hideForm() {
+    bookForm.classList.add('hidden');
+    toggleDisableForm();
+}
+
 function saveEditedContent(e) {
     let tempBook = new Book(title, author, read)
 }
@@ -235,13 +243,15 @@ function enableSaveEditedContent(editableContent) {
 }
 
 function editMode(e) {
-    console.log(e.currentTarget)
-    books = libraryWrapper.querySelectorAll(":scope > .book");
+    e.currentTarget.style.border = "1px solid red"
     enableEditing(e.currentTarget);
     disableShowAddFormBtn();
+    hideForm();
 }
 
 function viewMode(e) {
+    console.log(e.currentTarget)
+    e.currentTarget.style.border = "none"
     disableEditing(e.currentTarget);
     enableShowAddFormBtn();
 }
