@@ -102,7 +102,7 @@ function addBookDOM(index, title, author, read) {
     libraryWrapper.appendChild(newBookDOM);
 
     newBookDOM.addEventListener('focus', editMode, true);
-    newBookDOM.addEventListener('blur', deleteOrViewMode, true);
+    newBookDOM.addEventListener('blur', viewMode, true);
 
 }
 
@@ -151,13 +151,6 @@ function disableDeleteBtn(button) {
     button.classList.add('hidden');
 }
 
-function deleteOrViewMode(e) {
-    console.log(e.Target)
-    console.log(e.currentTarget)
-    viewMode(e)
-}
-
-
 function disableShowAddFormBtn() {
     showAddFormBtn.disabled = true;
 }
@@ -180,11 +173,9 @@ function enableEditing(book) {
             book.children[i].classList.remove('hidden')
         }
     }
-    console.log("enable editing" + book)
 }
 
 function disableEditing(book) {
-    console.log("disable editing" + book)
     for (i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "false";
@@ -247,7 +238,6 @@ function editMode(e) {
 }
 
 function viewMode(e) {
-    console.log(e.currentTarget)
     e.currentTarget.style.border = "none"
     disableEditing(e.currentTarget);
     enableShowAddFormBtn();
