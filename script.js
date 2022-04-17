@@ -148,7 +148,7 @@ function deleteBookDOM(index) {
 
 function deleteBtnWrapper(e) {
     let button = e.target
-    index = button.parentElement.dataset.index;
+    let index = button.parentElement.dataset.index;
     deleteBookDOM(index);
     deleteBookObject(index);
 }
