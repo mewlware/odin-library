@@ -90,9 +90,7 @@ function addBookDOM(index, title, author, read) {
     deleteBtn.textContent = 'DELETE';
     deleteBtn.classList.add('delete', 'hidden', 'btn-delete');
     deleteBtn.disabled = true;
-    deleteBtn.addEventListener('click', () => {
-        deleteBtnWrapper(button)
-    })
+    deleteBtn.addEventListener('click', deleteBtnWrapper);
 
     newBookDOM.appendChild(titleDOM);
     newBookDOM.appendChild(authorDOM);
@@ -102,7 +100,7 @@ function addBookDOM(index, title, author, read) {
     libraryWrapper.appendChild(newBookDOM);
 
     newBookDOM.addEventListener('focus', editMode, true);
-    newBookDOM.addEventListener('blur', viewMode, true);
+    newBookDOM.addEventListener('blur', handleBlur, true);
 
 }
 
@@ -134,7 +132,8 @@ function deleteBookDOM(index) {
     bookToDelete.remove()
 }
 
-function deleteBtnWrapper(button) {
+function deleteBtnWrapper(e) {
+    button = e.target
     console.log("delete")
     index = button.parentElement.dataset.index;
     deleteBookDOM(index);
@@ -160,6 +159,7 @@ function enableShowAddFormBtn() {
 }
 
 function enableEditing(book) {
+    console.log('enable editing')
     for (i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "true";
@@ -176,6 +176,7 @@ function enableEditing(book) {
 }
 
 function disableEditing(book) {
+    console.log('disable editing')
     for (i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "false";
@@ -241,6 +242,12 @@ function viewMode(e) {
     e.currentTarget.style.border = "none"
     disableEditing(e.currentTarget);
     enableShowAddFormBtn();
+}
+
+function handleBlur(e) {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+        viewMode(e)
+    }
 }
 
 
