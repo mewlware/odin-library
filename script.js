@@ -316,7 +316,23 @@ function saveAndViewMode(e) {
 
 showAddFormBtn.addEventListener('click', toggleShowForm)
 
-addBtn.addEventListener('click', (evt) => {
-    evt.preventDefault()
+addBtn.addEventListener('click', (e) => {
+    e.preventDefault()
     submitBook()
 })
+
+// Add dummy books for example
+let index1 = uniqueNewBookIndex();
+
+addBookDOM(index1, "1984", "George Orwell", "read")
+addBookObject(index1, "1984", "George Orwell", "read")
+
+let index2 = uniqueNewBookIndex();
+
+addBookDOM(index2, "The Bell Jar", "Slyvia Plath", "not-read")
+addBookObject(index2, "The Bell Jar", "Slyvia Plath", "not-read")
+
+let index3 = uniqueNewBookIndex();
+
+addBookDOM(index3, "The Hobbit", "J.R.R. Tolkien", "read")
+addBookObject(index3, "The Hobbit", "J.R.R. Tolkien", "read")
