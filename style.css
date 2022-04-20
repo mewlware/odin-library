@@ -1,19 +1,19 @@
 @font-face {
-    font-family: "Mango Grotesque";
-    src: url("assets/Mango Grotesque-VF.ttf") format("truetype");
+    font-family: "GIN";
+    src: url("assets/GIN_Regular.otf") format("opentype");
     font-weight: 100 900;
     font-style: normal;
 }
 
 @font-face {
-    font-family: "HK Grotesk";
-    src: url("assets/HKGrotesk-ExtraBold.otf") format("opentype");
-    font-weight: 900;
+    font-family: "Thunder";
+    src: url("assets/Thunder-VF.ttf") format("opentype");
+    font-weight: 100 900;
     font-style: normal;
 }
 
 @font-face {
-    font-family: "HK Grotesk";
+    font-family: "Thunder2";
     src: url("assets/HKGrotesk-Medium.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
@@ -21,11 +21,14 @@
 
 :root {
     font-size: 36px;
-    font-family: 'Mango Grotesque', sans-serif;
+    font-family: 'GIN', sans-serif;
+
+    --delete-icon: url("assets/icons8-cancel.svg");
+    --done-icon: url("assets/icons8-done.svg");
 }
 
 input {
-    font-family: 'HK Grotesk';
+    font-family: 'Thunder';
     font-weight: normal;
 }
 
@@ -79,7 +82,7 @@ header {
 
 header > h1 {
     text-transform: capitalize;
-    font-size: 3rem;
+    font-size: 2.4rem;
     font-weight: 900;
 }
 
@@ -98,24 +101,36 @@ header button {
 
 nav > ul {
     display: flex;
+    align-items: center;
     text-transform: capitalize;
 
-    font-family: 'HK Grotesk', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 900;
+    font-family: 'Thunder', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+nav button {
+    transform: translateY(-0.15em)
 }
 
 /* FORM CONTENT */
 form {
-    font-family: 'HK Grotesk', sans-serif;
-    font-size: 1rem;
+    font-family: 'Thunder', sans-serif;
+    font-size: 1.2rem;
     color: blue;
 }
 
-form > h2 {
-    font-size: 2rem;
-    font-weight: 900;
+
+form > section {
+    display: flex;
+    flex-wrap: wrap;
     margin-bottom: 32px;
+}
+
+form > h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 36px;
 }
 
 fieldset {
@@ -135,17 +150,12 @@ fieldset li {
 
 li > label {
     color: blue;
-    font-size: 1.2rem;
-    font-weight: 900;
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
-form > section {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 32px;
-}
 
-section > .form-input {
+.form-bookinfo > .form-input {
     display: flex;
     flex-direction: column;
     margin-bottom: 24px;
@@ -153,8 +163,16 @@ section > .form-input {
     flex: auto;
 }
 
-section > .form-input:last-of-type {
+.form-bookinfo > .form-input:last-of-type {
     margin-right: 0px;
+}
+
+.form-input >  label {
+    margin-bottom: 8px;
+}
+
+form legend {
+    margin-bottom: 0.5rem;
 }
 
 input[type=text] {
@@ -163,8 +181,8 @@ input[type=text] {
     background-color: transparent;
     height: 2rem;
     padding: 0px 24px;
-    font-size: 1.2rem;
-    font-weight: 900;
+    font-size: 1.4rem;
+    font-weight: 600;
     color: currentColor;
 }
 
@@ -183,6 +201,7 @@ input[type=radio] {
 
     display: grid;
     place-content: center;
+    transform: translateY(-0.15em);
 }
 
 input[type="radio"]::before {
@@ -202,57 +221,77 @@ input[type="radio"]:checked::before {
 
 
 form button {
-    font-size: 1.2rem;
-    font-family: 'HK Grotesk', sans-serif;
-    font-weight: 900;
+    font-size: 1.4rem;
+    font-family: 'Thunder', sans-serif;
+    font-weight: 700;
     height: 2rem;
     width: 300px;
+    padding-top: 8px;
     border-radius: 50px;
     border: none;
-    background: linear-gradient(rgb(0, 0, 255), 30%, rgb(104, 104, 255));    ;
+    background: linear-gradient(rgb(0, 0, 255), 30%, rgb(104, 104, 255));
     color: hsl(240, 100%, 93%);
 }
 
 /* MAIN CONTENT */
-.section-title {
-    margin-bottom: 1rem;
-}
 
 .library-wrapper {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     text-transform: uppercase;
 }
 
 article.book {
     display: flex;
-    margin-right: 60px;
-    margin-bottom: 0.6rem;
-    align-items: baseline;
+    justify-content: space-between;
+    padding-top: 24px;
+    margin-top: -24px;
 }
 
-.book > .title {
-    line-height: 3.5rem;
-    font-size: 4rem;
+.book .bookinfo {
+    display: flex;
+    align-items: first baseline;
+    gap: 16px;
+}
+
+.book .title {
+    line-height: 100%;
+    font-size: 3.6rem;
     font-weight: 800;
-    margin-right: 12px;
 }
 
 .book .author {
+    font-family: 'Thunder', sans-serif;
     font-weight: 500;
     font-size: 1.5rem;
-    margin-right: 12px;
 }
 
-.book .readData {
-    font-size: 1.5rem;
-    font-weight: 200;
+.btn-wrapper {
+    align-self: start;
+    justify-self: center;
 }
 
 .btn-inner {
-    font-family: 'HK Grotesk', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 200;
+    font-family: 'Thunder', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: hsl(240, 100%, 93%);
+    background: linear-gradient(hsl(240, 100%, 50%), 50%, hsl(240, 100%, 62%));
+    width: 4rem;
+    height: 1rem;
+    border-radius: 60px;
+    border: none;
+    padding: 0px 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete {
+    background: linear-gradient(hsla(0, 100%, 50%, 0.5), 50%, hsla(0, 100%, 70%, 0.5));
 }
 
 article[data-read="read"] {
@@ -261,4 +300,20 @@ article[data-read="read"] {
 
 article[data-read="not-read"]{
     color: hsl(240, 100%, 70%);
+}
+
+/** MAIN CONTENT- IN FOCUS **/
+.book-focus[data-read="not-read"],
+.book-focus[data-read="read"] {
+    outline: dashed blue 2px;
+    outline-offset: 2px;
+    border-radius: 4rem;
+    z-index: 1;
+
+    margin-left: -36px;
+    padding-left: 36px;
+    margin-right: -36px;
+    padding-right: 36px;
+    background: linear-gradient(hsla(240, 100%, 50%, 0.7), 50%, hsla(240, 100%, 70%, 0.7));
+    color: hsl(240, 100%, 93%);
 }
