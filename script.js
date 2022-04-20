@@ -73,6 +73,9 @@ function addBookDOM(index, title, author, read) {
     newBookDOM.dataset.read = read;
     newBookDOM.setAttribute("tabindex", "0");
 
+    const bookInfoDOM = document.createElement("section");
+    bookInfoDOM.classList.add('bookinfo');
+
     const titleDOM = document.createElement("h3");
     titleDOM.classList.add('title');
     titleDOM.textContent = title;
@@ -83,28 +86,45 @@ function addBookDOM(index, title, author, read) {
     authorDOM.textContent = author;
     authorDOM.setAttribute("tabindex", "0");
 
-    const readDOM = document.createElement("p");
-    readDOM.classList.add('readData', read, 'hidden');
-    readDOM.textContent = read;
-    readDOM.addEventListener('click', toggleRead)
+    const readBtn = document.createElement("button");
+    readBtn.classList.add('readData', read, 'btn-inner');
+    readBtn.textContent = read;
+    readBtn.addEventListener('click', toggleRead)
+
+    const buttonsDOM = document.createElement("div");
+    buttonsDOM.classList.add('btn-wrapper', 'hidden');
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = 'DELETE';
-    deleteBtn.classList.add('delete', 'hidden', 'btn-inner');
+    deleteBtn.textContent = "Delete"
+    deleteBtn.classList.add('delete', 'btn-inner');
     deleteBtn.disabled = true;
     deleteBtn.addEventListener('click', deleteBtnWrapper);
 
+    /*const deleteIcon = document.createElement('img');
+    deleteIcon.src = "assets/icons8-cancel.svg";
+    deleteIcon.setAttribute('style', 'width: 32px; height: 32px')
+    deleteBtn.appendChild(deleteIcon);*/
+
     const saveBtn = document.createElement("button");
-    saveBtn.textContent = 'SAVE';
-    saveBtn.classList.add('save', 'hidden', 'btn-inner')
-    saveBtn.disabled = true
-    saveBtn.addEventListener('click', saveAndViewMode)
+    saveBtn.textContent = "Save"
+    saveBtn.classList.add('save', 'btn-inner');
+    saveBtn.disabled = true;
+    saveBtn.addEventListener('click', saveAndViewMode);
     
-    newBookDOM.appendChild(titleDOM);
-    newBookDOM.appendChild(authorDOM);
-    newBookDOM.appendChild(readDOM);
-    newBookDOM.appendChild(deleteBtn);
-    newBookDOM.appendChild(saveBtn);
+    /*const saveIcon = document.createElement('img');
+    saveIcon.src = "assets/icons8-done.svg";
+    saveIcon.setAttribute('style', 'width: 32px; height: 32px')
+    saveBtn.appendChild(saveIcon);*/
+
+    buttonsDOM.appendChild(deleteBtn);
+    buttonsDOM.appendChild(saveBtn);
+    buttonsDOM.appendChild(readBtn);
+
+    bookInfoDOM.appendChild(titleDOM);
+    bookInfoDOM.appendChild(authorDOM);
+
+    newBookDOM.appendChild(bookInfoDOM);
+    newBookDOM.appendChild(buttonsDOM);
 
     libraryWrapper.appendChild(newBookDOM);
 
@@ -148,19 +168,26 @@ function deleteBookDOM(index) {
 
 function deleteBtnWrapper(e) {
     let button = e.target
-    let index = button.parentElement.dataset.index;
+    let book = button.parentElement.parentElement
+    let index = book.dataset.index;
     deleteBookDOM(index);
     deleteBookObject(index);
 }
 
-function enableBtn(button) {
-    button.disabled = false;
-    button.classList.remove('hidden');
+function enableBtns(btnsWrapper) {
+    console.log("enabling buttons")
+    console.log(btnsWrapper.children)
+    btnsWrapper.classList.remove('hidden');
+    for (let i = 0; i < btnsWrapper.children.length; i++) {
+        btnsWrapper.children[i].disabled = false;
+    }
 }
 
-function disableBtn(button) {
-    button.disabled = true;
-    button.classList.add('hidden');
+function disableBtns(btnsWrapper) {
+    btnsWrapper.classList.add('hidden');
+    for (let i = 0; i < btnsWrapper.children.length; i++) {
+        btnsWrapper.children[i].disabled = true;
+    }
 }
 
 function disableShowAddFormBtn() {
@@ -172,53 +199,41 @@ function enableShowAddFormBtn() {
 }
 
 function enableEditing(book) {
-    for (i = 0; i < book.children.length; i++) {
+    for (let i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "true";
         } else if (book.children[i].classList.contains('author')) {
             book.children[i].contentEditable = "true";
-        } else if (book.children[i].classList.contains('delete')) {
-            book.children[i].disabled = false;
-            book.children[i].classList.toggle('hidden')
-            enableBtn(book.children[i])
-        } else if (book.children[i].classList.contains('readData')) {
-            book.children[i].classList.remove('hidden')
-        } else if (book.children[i].classList.contains('save')) {
-            book.children[i].classList.remove('hidden')
-            enableBtn(book.children[i])
+        } else if (book.children[i].classList.contains('btn-wrapper')) {
+            enableBtns(book.children[i])
         }
     }
 }
 
 function disableEditing(book) {
-    for (i = 0; i < book.children.length; i++) {
+    for (let i = 0; i < book.children.length; i++) {
         if (book.children[i].classList.contains('title')) {
             book.children[i].contentEditable = "false";
         } else if (book.children[i].classList.contains('author')) {
             book.children[i].contentEditable = "false";
-        } else if (book.children[i].classList.contains('delete')) {
-            disableBtn(book.children[i])
-        } else if (book.children[i].classList.contains('readData')) {
-            book.children[i].classList.add('hidden')
-        } else if (book.children[i].classList.contains('save')) {
-            book.children[i].classList.add('hidden')
-            disableBtn(book.children[i])
+        } else if (book.children[i].classList.contains('btn-wrapper')) {
+            disableBtns(book.children[i])
         }
     }
 }
 
 function toggleRead(e) {
-    currentBookRead = e.target
-    currentBookRead.classList.toggle('read');
-    currentBookRead.classList.toggle('not-read');
-    let currentBook = currentBookRead.parentElement
+    let read = e.target
+    read.classList.toggle('read');
+    read.classList.toggle('not-read');
+    let book = read.parentElement.parentElement
 
-    if (currentBook.dataset.read == "read") {
-        currentBook.dataset.read = "not-read"
-        currentBookRead.textContent = "not-read"
-    } else if (currentBook.dataset.read == "not-read") {
-        currentBook.dataset.read = "read"
-        currentBookRead.textContent = "read"
+    if (book.dataset.read == "read") {
+        book.dataset.read = "not-read"
+        read.textContent = "not-read"
+    } else if (book.dataset.read == "not-read") {
+        book.dataset.read = "read"
+        read.textContent = "read"
     }
 }
 
@@ -269,12 +284,14 @@ function cancelEdit(book) {
         authorDOM.textContent = tempBook.author;
         readDOM.textContent = tempBook.read;
     
-        if(readDOM == 'read') {
+        if(readDOM.textContent == 'read') {
             readDOM.classList.add('read')
             readDOM.classList.remove('not-read')
-        } else if (readDOM == 'not-read') {
+            book.dataset.read = 'read'
+        } else if (readDOM.textContent == 'not-read') {
             readDOM.classList.add('not-read')
             readDOM.classList.remove('read')
+            book.dataset.read = 'not-read'
         }
     
         tempBook.title = null
@@ -283,8 +300,15 @@ function cancelEdit(book) {
     }
 }
 
+function addFocusStyling(book) {
+    book.classList.add('book-focus');
+}
+
+function removeFocusStyling(book) {
+    book.classList.remove('book-focus');
+}
+
 function editMode(book) {
-    book.style.border = "1px solid red"
     enableEditing(book);
     saveBookOnTemp(book);
     disableShowAddFormBtn();
@@ -292,13 +316,13 @@ function editMode(book) {
 }
 
 function viewMode(book) {
-    book.style.border = "none"
     disableEditing(book);
     enableShowAddFormBtn();
 }
 
 function handleBlur(e) {
     if (!e.currentTarget.contains(e.relatedTarget)) {
+        removeFocusStyling(e.currentTarget)
         viewMode(e.currentTarget)
         cancelEdit(e.currentTarget)
         saved = false;
@@ -306,6 +330,7 @@ function handleBlur(e) {
 }
 
 function handleFocus(e) {
+    addFocusStyling(e.currentTarget)
     editMode(e.currentTarget)
 }
 
@@ -334,5 +359,5 @@ addBookObject(index2, "The Bell Jar", "Slyvia Plath", "not-read")
 
 let index3 = uniqueNewBookIndex();
 
-addBookDOM(index3, "The Hobbit", "J.R.R. Tolkien", "read")
-addBookObject(index3, "The Hobbit", "J.R.R. Tolkien", "read")
+addBookDOM(index3, "Maybe Talk?", "Lori Gottlieb", "read")
+addBookObject(index3, "Maybe Talk?", "Lori Gottlieb", "read")
