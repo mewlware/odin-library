@@ -183,12 +183,24 @@ function enableBtns(btnsWrapper) {
     }
 }
 
+function enableTextEdit(bookInfo) {
+    for (let i = 0; i < bookInfo.children.length; i++) {
+        bookInfo.children[i].contentEditable = "true"
+    }
+} 
+
 function disableBtns(btnsWrapper) {
     btnsWrapper.classList.add('hidden');
     for (let i = 0; i < btnsWrapper.children.length; i++) {
         btnsWrapper.children[i].disabled = true;
     }
 }
+
+function disableTextEdit(bookInfo) {
+    for (let i = 0; i < bookInfo.children.length; i++) {
+        bookInfo.children[i].contentEditable = "false"
+    }
+} 
 
 function disableShowAddFormBtn() {
     showAddFormBtn.disabled = true;
@@ -200,10 +212,8 @@ function enableShowAddFormBtn() {
 
 function enableEditing(book) {
     for (let i = 0; i < book.children.length; i++) {
-        if (book.children[i].classList.contains('title')) {
-            book.children[i].contentEditable = "true";
-        } else if (book.children[i].classList.contains('author')) {
-            book.children[i].contentEditable = "true";
+        if (book.children[i].classList.contains('bookinfo')) {
+            enableTextEdit(book.children[i])
         } else if (book.children[i].classList.contains('btn-wrapper')) {
             enableBtns(book.children[i])
         }
@@ -212,10 +222,8 @@ function enableEditing(book) {
 
 function disableEditing(book) {
     for (let i = 0; i < book.children.length; i++) {
-        if (book.children[i].classList.contains('title')) {
-            book.children[i].contentEditable = "false";
-        } else if (book.children[i].classList.contains('author')) {
-            book.children[i].contentEditable = "false";
+        if (book.children[i].classList.contains('bookinfo')) {
+            disableTextEdit(book.children[i])
         } else if (book.children[i].classList.contains('btn-wrapper')) {
             disableBtns(book.children[i])
         }
