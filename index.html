@@ -10,51 +10,52 @@
 </head>
 <body>
     <header class="header">
-        <h1 class="page-title">Library</h1>
-        <nav>
-            <ul>
-                <li><button class="show-add">+</button></li>
-                <li>About</li>
-            </ul>
-        </nav>
+            <h1 class="page-title">Library</h1>
+            <nav>
+                <ul>
+                    <li><button class="show-add">+</button></li>
+                    <li>About</li>
+                </ul>
+            </nav>
     </header>
     <aside class="add-form">
         <form action="#" method="POST" id="bookForm" class="hidden">
-            <h2 class="form-title">Book Information</h2>
-            <div class="form-input">
-                <label for="get-title">
-                    Book Title:
-                    <abbr title="required" aria-required="true"></abbr>
-                </label>
-                <input type="text" required="required" id="get-title" name="get-title">
-            </div>
-            <div class="form-input">
-                <label for="get-author">
-                    Author:
-                    <abbr title="required" aria-required="true"></abbr>
-                </label>
-                <input type="text" required="required" id="get-author" name="get-author">
-            </div>
-            <div>
-                <fieldset>
-                    <legend>Have you read the book?</legend>
-                    <ul>
-                        <li>
-                            <label for="read-yes">Yes</label> 
-                            <input type="radio" id="read-yes" name="get-read" value="yes" checked>
-                        </li>
-                        <li>
-                            <label for="read-no">No</label>
-                            <input type="radio" id="read-no" name="get-read" value="no">
-                        </li>
-                    </ul>
-                </fieldset>
-            </div>
+            <h2 class="form-title">New Book!</h2>
+            <section class="form-bookinfo">
+                <div class="form-input">
+                    <label for="get-title">
+                        Book Title
+                        <abbr title="required" aria-required="true"></abbr>
+                    </label>
+                    <input type="text" required="required" id="get-title" name="get-title">
+                </div>
+                <div class="form-input">
+                    <label for="get-author">
+                        Author
+                        <abbr title="required" aria-required="true"></abbr>
+                    </label>
+                    <input type="text" required="required" id="get-author" name="get-author">
+                </div>
+                <div class="form-input">
+                    <fieldset>
+                        <legend>Have you read the book?</legend>
+                        <ul>
+                            <li>
+                                <input type="radio" id="read-yes" name="get-read" value="yes" checked>
+                                <label for="read-yes">Yes</label> 
+                            </li>
+                            <li>
+                                <input type="radio" id="read-no" name="get-read" value="no">
+                                <label for="read-no">No</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </section>
             <button type="submit" class="add">Add Book</button>
         </form>
     </aside>
     <main>
-        <h2 class="section-title">Books</h2>
         <div class="library-wrapper">
         </div>
     </main>
