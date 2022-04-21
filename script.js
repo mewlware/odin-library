@@ -86,35 +86,51 @@ function addBookDOM(index, title, author, read) {
     authorDOM.textContent = author;
     authorDOM.setAttribute("tabindex", "0");
 
-    const readBtn = document.createElement("button");
-    readBtn.classList.add('readData', read, 'btn-inner');
-    readBtn.textContent = read;
-    readBtn.addEventListener('click', toggleRead)
-
     const buttonsDOM = document.createElement("div");
     buttonsDOM.classList.add('btn-wrapper', 'hidden');
 
+    const readBtn = document.createElement("button");
+    readBtn.classList.add('readData', read, 'btn-inner');
+    /*readBtn.textContent = read;*/
+    readBtn.addEventListener('click', toggleRead)
+
+    const readBlankIcon = document.createElement("img");
+    const readCheckIcon = document.createElement("img");
+    readBlankIcon.src = "assets/checkbox-blank-outline.svg";
+    readCheckIcon.src = "assets/checkbox-marked-outline.svg";
+    readBlankIcon.classList.add("not-read")
+    readCheckIcon.classList.add("read")
+    readBlankIcon.setAttribute('style', 'width: 32px; height: 32px')
+    readCheckIcon.setAttribute('style', 'width: 32px; height: 32px')
+    if (read == "read") {
+        readBlankIcon.classList.add('hidden')
+    } else if (read == "not-read") {
+        readCheckIcon.classList.add('hidden')
+    }
+    readBtn.appendChild(readBlankIcon)
+    readBtn.appendChild(readCheckIcon)
+
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete"
+    /*deleteBtn.textContent = "Delete"*/
     deleteBtn.classList.add('delete', 'btn-inner');
     deleteBtn.disabled = true;
     deleteBtn.addEventListener('click', deleteBtnWrapper);
 
-    /*const deleteIcon = document.createElement('img');
-    deleteIcon.src = "assets/icons8-cancel.svg";
+    const deleteIcon = document.createElement('img');
+    deleteIcon.src = "assets/trash-can-outline.svg";
     deleteIcon.setAttribute('style', 'width: 32px; height: 32px')
-    deleteBtn.appendChild(deleteIcon);*/
+    deleteBtn.appendChild(deleteIcon);
 
     const saveBtn = document.createElement("button");
-    saveBtn.textContent = "Save"
+    /*saveBtn.textContent = "Save"*/
     saveBtn.classList.add('save', 'btn-inner');
     saveBtn.disabled = true;
     saveBtn.addEventListener('click', saveAndViewMode);
     
-    /*const saveIcon = document.createElement('img');
-    saveIcon.src = "assets/icons8-done.svg";
+    const saveIcon = document.createElement('img');
+    saveIcon.src = "assets/content-save-outline.svg";
     saveIcon.setAttribute('style', 'width: 32px; height: 32px')
-    saveBtn.appendChild(saveIcon);*/
+    saveBtn.appendChild(saveIcon);
 
     buttonsDOM.appendChild(deleteBtn);
     buttonsDOM.appendChild(saveBtn);
@@ -231,17 +247,19 @@ function disableEditing(book) {
 }
 
 function toggleRead(e) {
-    let read = e.target
-    read.classList.toggle('read');
-    read.classList.toggle('not-read');
-    let book = read.parentElement.parentElement
+    let read = e.target;
+    let book = read.parentElement.parentElement;
+    let blankIcon = read.querySelector('.not-read');
+    let checkIcon = read.querySelector('.read');
 
     if (book.dataset.read == "read") {
         book.dataset.read = "not-read"
-        read.textContent = "not-read"
+        blankIcon.classList.add('hidden')
+        checkIcon.classList.remove('hidden')
     } else if (book.dataset.read == "not-read") {
         book.dataset.read = "read"
-        read.textContent = "read"
+        checkIcon.classList.add('hidden')
+        blankIcon.classList.remove('hidden')
     }
 }
 
@@ -267,9 +285,8 @@ function saveEdit(book) {
     saved = true;
     let title = book.querySelector('.title').textContent
     let author = book.querySelector('.author').textContent
-    let read = book.querySelector('.readData').textContent
     
-    editBook(book.dataset.index, title, author, read)
+    editBook(book.dataset.index, title, author, book.dataset.read)
     
     tempBook.title = null
     tempBook.author = null
@@ -279,26 +296,26 @@ function saveEdit(book) {
 function saveBookOnTemp(book) {
     tempBook.title = book.querySelector('.title').textContent
     tempBook.author = book.querySelector('.author').textContent
-    tempBook.read = book.querySelector('.readData').textContent
+    tempBook.read = book.dataset.read
 }
 
 function cancelEdit(book) {
     if (!saved) {
         let titleDOM = book.querySelector('.title')
         let authorDOM = book.querySelector('.author')
-        let readDOM = book.querySelector('.readData')
+        let readBlankIcon = book.querySelector('.read')
+        let readCheckIcon = book.querySelector('.not-read')
     
         titleDOM.textContent = tempBook.title;
         authorDOM.textContent = tempBook.author;
-        readDOM.textContent = tempBook.read;
-    
-        if(readDOM.textContent == 'read') {
-            readDOM.classList.add('read')
-            readDOM.classList.remove('not-read')
+
+        if(tempBook.read == 'read') {
+            readBlankIcon.classList.add('hidden')
+            readCheckIcon.classList.remove('hidden')
             book.dataset.read = 'read'
-        } else if (readDOM.textContent == 'not-read') {
-            readDOM.classList.add('not-read')
-            readDOM.classList.remove('read')
+        } else if (tempBook.read == 'not-read') {
+            readCheckIcon.classList.add('hidden')
+            readBlankIcon.classList.remove('hidden')
             book.dataset.read = 'not-read'
         }
     
@@ -343,8 +360,9 @@ function handleFocus(e) {
 }
 
 function saveAndViewMode(e) {
-    saveEdit(e.target.parentElement)
-    viewMode(e.target.parentElement)
+    let book = e.currentTarget.closest('.book')
+    saveEdit(book)
+    viewMode(book)
 }
 
 showAddFormBtn.addEventListener('click', toggleShowForm)

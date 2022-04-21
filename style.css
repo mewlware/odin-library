@@ -22,9 +22,6 @@
 :root {
     font-size: 36px;
     font-family: 'GIN', sans-serif;
-
-    --delete-icon: url("assets/icons8-cancel.svg");
-    --done-icon: url("assets/icons8-done.svg");
 }
 
 input {
@@ -278,7 +275,8 @@ article.book {
     font-weight: 400;
     text-transform: uppercase;
     color: hsl(240, 100%, 93%);
-    background: linear-gradient(hsl(240, 100%, 50%), 50%, hsl(240, 100%, 62%));
+    /*background: linear-gradient(hsl(240, 100%, 50%), 50%, hsl(240, 100%, 62%));*/
+    background: none;
     width: 4rem;
     height: 1rem;
     border-radius: 60px;
@@ -288,6 +286,10 @@ article.book {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.btn-inner > img {
+    pointer-events: none;
 }
 
 .delete {
