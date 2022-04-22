@@ -183,24 +183,22 @@ input[type=text] {
     color: currentColor;
 }
 
-input[type=radio] {
+input[type="radio"] {
     -webkit-appearance: none;
     appearance: none;
-    background-color: none;
     margin: 0;
-
     font: inherit;
     color: currentColor;
-    width: 1em;
-    height: 1em;
+    width: 1.15em;
+    height: 1.15em;
     border: 2px solid currentColor;
     border-radius: 50%;
+    transform: translateY(-0.075em);
 
     display: grid;
     place-content: center;
-    transform: translateY(-0.15em);
-}
-
+  }
+  
 input[type="radio"]::before {
     content: "";
     width: 0.65em;
@@ -208,14 +206,12 @@ input[type="radio"]::before {
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em blue;
-  }
-
-
+}
+  
 input[type="radio"]:checked::before {
+    background-color: blue;
     transform: scale(1);
-  }
-
+}
 
 form button {
     font-size: 1.4rem;
