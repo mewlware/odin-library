@@ -100,8 +100,8 @@ function addBookDOM(index, title, author, read) {
     readCheckIcon.src = "assets/checkbox-marked-outline.svg";
     readBlankIcon.classList.add("not-read")
     readCheckIcon.classList.add("read")
-    readBlankIcon.setAttribute('style', 'width: 32px; height: 32px')
-    readCheckIcon.setAttribute('style', 'width: 32px; height: 32px')
+    readBlankIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
+    readCheckIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
     if (read == "read") {
         readBlankIcon.classList.add('hidden')
     } else if (read == "not-read") {
@@ -118,7 +118,7 @@ function addBookDOM(index, title, author, read) {
 
     const deleteIcon = document.createElement('img');
     deleteIcon.src = "assets/trash-can-outline.svg";
-    deleteIcon.setAttribute('style', 'width: 32px; height: 32px')
+    deleteIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
     deleteBtn.appendChild(deleteIcon);
 
     const saveBtn = document.createElement("button");
@@ -129,12 +129,12 @@ function addBookDOM(index, title, author, read) {
     
     const saveIcon = document.createElement('img');
     saveIcon.src = "assets/content-save-outline.svg";
-    saveIcon.setAttribute('style', 'width: 32px; height: 32px')
+    saveIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
     saveBtn.appendChild(saveIcon);
 
-    buttonsDOM.appendChild(deleteBtn);
-    buttonsDOM.appendChild(saveBtn);
     buttonsDOM.appendChild(readBtn);
+    buttonsDOM.appendChild(saveBtn);
+    buttonsDOM.appendChild(deleteBtn);
 
     bookInfoDOM.appendChild(titleDOM);
     bookInfoDOM.appendChild(authorDOM);
@@ -231,6 +231,7 @@ function enableEditing(book) {
         if (book.children[i].classList.contains('bookinfo')) {
             enableTextEdit(book.children[i])
         } else if (book.children[i].classList.contains('btn-wrapper')) {
+            book.children[i].classList.add('btn-wrapper-show')
             enableBtns(book.children[i])
         }
     }
@@ -241,6 +242,7 @@ function disableEditing(book) {
         if (book.children[i].classList.contains('bookinfo')) {
             disableTextEdit(book.children[i])
         } else if (book.children[i].classList.contains('btn-wrapper')) {
+            book.children[i].classList.remove('btn-wrapper-show')
             disableBtns(book.children[i])
         }
     }
