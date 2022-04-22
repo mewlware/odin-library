@@ -90,7 +90,7 @@ function addBookDOM(index, title, author, read) {
     buttonsDOM.classList.add('btn-wrapper', 'hidden');
 
     const readBtn = document.createElement("button");
-    readBtn.classList.add('readData', read, 'btn-inner');
+    readBtn.classList.add('readData', 'btn-inner');
     /*readBtn.textContent = read;*/
     readBtn.addEventListener('click', toggleRead)
 
@@ -254,12 +254,12 @@ function toggleRead(e) {
 
     if (book.dataset.read == "read") {
         book.dataset.read = "not-read"
-        blankIcon.classList.add('hidden')
-        checkIcon.classList.remove('hidden')
+        blankIcon.classList.remove('hidden')
+        checkIcon.classList.add('hidden')
     } else if (book.dataset.read == "not-read") {
         book.dataset.read = "read"
-        checkIcon.classList.add('hidden')
-        blankIcon.classList.remove('hidden')
+        checkIcon.classList.remove('hidden')
+        blankIcon.classList.add('hidden')
     }
 }
 
@@ -303,8 +303,8 @@ function cancelEdit(book) {
     if (!saved) {
         let titleDOM = book.querySelector('.title')
         let authorDOM = book.querySelector('.author')
-        let readBlankIcon = book.querySelector('.read')
-        let readCheckIcon = book.querySelector('.not-read')
+        let readBlankIcon = book.querySelector('.not-read')
+        let readCheckIcon = book.querySelector('.read')
     
         titleDOM.textContent = tempBook.title;
         authorDOM.textContent = tempBook.author;
