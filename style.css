@@ -258,7 +258,7 @@ form button {
     padding-top: 8px;
     border-radius: 50px;
     border: none;
-    background: linear-gradient(rgb(0, 0, 255), 30%, rgb(104, 104, 255));
+    background: linear-gradient(rgb(104, 104, 255), 50%, rgb(0, 0, 255));
     color: hsl(240, 100%, 93%);
 }
 
@@ -282,28 +282,36 @@ article.book {
     margin-top: -24px;
 }
 
-.book .bookinfo {
+.bookinfo {
     display: flex;
     align-items: first baseline;
     gap: 16px;
 }
 
-.book .title {
+.title {
     line-height: 100%;
     font-size: 3.6rem;
     font-weight: 800;
 }
 
-.book .author {
+.author {
     font-family: 'Thunder', sans-serif;
     font-weight: 500;
     font-size: 1.5rem;
+}
+
+.book .title:focus,
+.book .author:focus {
+    outline: none;
+    text-decoration: underline 3px;
+    text-underline-offset: 0.1rem;
 }
 
 .btn-wrapper-show {
     display: flex;
     justify-self:baseline;
     align-items: flex-start;
+    gap: 2px;
 }
 
 .btn-inner {
@@ -313,10 +321,11 @@ article.book {
     text-transform: uppercase;
     color: hsl(240, 100%, 93%);
     background: none;
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 1rem;
+    height: 1rem;
     border-radius: 60px;
     border: none;
+    padding: 2px;
 
     display: flex;
     justify-content: center;
@@ -325,6 +334,20 @@ article.book {
 
 .btn-inner > svg {
     pointer-events: none;
+}
+
+.btn-inner:hover {
+    background: linear-gradient(hsl(240, 100%, 70%), 10%, hsl(240, 90%, 92%));
+    transform: scale(1.2);
+    transition: transform 150ms ease-in-out;
+}
+
+.btn-inner:hover path {
+    fill: blue;
+}
+
+.btn-inner:focus {
+    outline: 2px solid hsl(240, 90%, 92%);
 }
 
 article[data-read="read"] {
