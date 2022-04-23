@@ -191,8 +191,6 @@ function deleteBtnWrapper(e) {
 }
 
 function enableBtns(btnsWrapper) {
-    console.log("enabling buttons")
-    console.log(btnsWrapper.children)
     btnsWrapper.classList.remove('hidden');
     for (let i = 0; i < btnsWrapper.children.length; i++) {
         btnsWrapper.children[i].disabled = false;
@@ -337,17 +335,34 @@ function removeFocusStyling(book) {
 
 function editMode(book) {
     enableEditing(book);
-    saveBookOnTemp(book);
-    disableShowAddFormBtn();
+    saveBookOnTemp(book);;
     hideForm();
 }
 
 function viewMode(book) {
     disableEditing(book);
-    enableShowAddFormBtn();
 }
 
 function handleBlur(e) {
+    /* Check if the clicking that triggers blur
+    comes from inside the book html tag itself or
+    from outside of it. If it's inside the book,
+    no need to fire any functions as the book would still
+    be focused in.
+    
+    else if the click on element that triggers blur
+    is another, different book html tag, do not enable
+    the button that shows add book form. If it's not another
+    book, enable the button*/
+    if (e.relatedTarget == null) {
+        enableShowAddFormBtn();
+    } else {
+        let relatedBook = e.relatedTarget.closest('.book');
+        if (relatedBook == null) {
+            enableShowAddFormBtn();
+        }
+    } 
+
     if (!e.currentTarget.contains(e.relatedTarget)) {
         removeFocusStyling(e.currentTarget)
         viewMode(e.currentTarget)
@@ -357,6 +372,7 @@ function handleBlur(e) {
 }
 
 function handleFocus(e) {
+    disableShowAddFormBtn()
     addFocusStyling(e.currentTarget)
     editMode(e.currentTarget)
 }
