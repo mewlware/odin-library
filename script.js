@@ -91,35 +91,25 @@ function addBookDOM(index, title, author, read) {
 
     const readBtn = document.createElement("button");
     readBtn.classList.add('readData', 'btn-inner');
-    /*readBtn.textContent = read;*/
     readBtn.addEventListener('click', toggleRead)
 
-    const readBlankIcon = document.createElement("img");
-    const readCheckIcon = document.createElement("img");
-    readBlankIcon.src = "assets/checkbox-blank-outline.svg";
-    readCheckIcon.src = "assets/checkbox-marked-outline.svg";
-    readBlankIcon.classList.add("not-read")
-    readCheckIcon.classList.add("read")
-    readBlankIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
-    readCheckIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
+    readBtn.innerHTML = '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24" class="not-read"><path fill="rgb(219, 219, 255)" d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z" /></svg>'
+    readBtn.innerHTML += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24" class="read"><path fill="rgb(219, 219, 255)" d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z" /></svg>'
+
+    const readBlankIcon = readBtn.querySelector('.not-read');
+    const readCheckIcon = readBtn.querySelector('.read');
+
     if (read == "read") {
         readBlankIcon.classList.add('hidden')
     } else if (read == "not-read") {
         readCheckIcon.classList.add('hidden')
     }
-    readBtn.appendChild(readBlankIcon)
-    readBtn.appendChild(readCheckIcon)
 
     const deleteBtn = document.createElement("button");
-    /*deleteBtn.textContent = "Delete"*/
+    deleteBtn.innerHTML = '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24"><path fill="rgb(219, 219, 255)" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>'
     deleteBtn.classList.add('delete', 'btn-inner');
     deleteBtn.disabled = true;
     deleteBtn.addEventListener('click', deleteBtnWrapper);
-
-    const deleteIcon = document.createElement('img');
-    deleteIcon.src = "assets/trash-can-outline.svg";
-    deleteIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
-    deleteBtn.appendChild(deleteIcon);
 
     const saveBtn = document.createElement("button");
     /*saveBtn.textContent = "Save"*/
@@ -127,10 +117,7 @@ function addBookDOM(index, title, author, read) {
     saveBtn.disabled = true;
     saveBtn.addEventListener('click', saveAndViewMode);
     
-    const saveIcon = document.createElement('img');
-    saveIcon.src = "assets/content-save-outline.svg";
-    saveIcon.setAttribute('style', 'width: 0.8rem; height: 0.8rem')
-    saveBtn.appendChild(saveIcon);
+    saveBtn.innerHTML = '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24"><path fill="rgb(219, 219, 255)" d="M17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3M19 19H5V5H16.17L19 7.83V19M12 12C10.34 12 9 13.34 9 15S10.34 18 12 18 15 16.66 15 15 13.66 12 12 12M6 6H15V10H6V6Z" /></svg>'
 
     buttonsDOM.appendChild(readBtn);
     buttonsDOM.appendChild(saveBtn);
