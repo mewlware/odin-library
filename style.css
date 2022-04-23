@@ -136,6 +136,7 @@ nav button:disabled {
     transition: background-color 300ms ease-in-out;
     background-color: hsl(240, 100%, 93%);
     color: hsl(240, 100%, 79%);
+    pointer-events: none;
 }
 
 /* FORM CONTENT */
