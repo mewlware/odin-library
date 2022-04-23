@@ -138,13 +138,6 @@ nav button:disabled {
     color: hsl(240, 100%, 79%);
 }
 
-/* Button is already disabled when
-noHover is added to button class, but this stops
-hover (and thus the animation) from firing */
-.noHover{
-    pointer-events: none;
-}
-
 /* FORM CONTENT */
 form {
     font-family: 'Thunder', sans-serif;
