@@ -83,19 +83,6 @@ header > h1 {
     font-weight: 900;
 }
 
-header button {
-    background-color: transparent;
-    border: 2px solid hsl(240, 100%, 93%);
-    width: 1.7rem;
-    height: 1.7rem;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: hsl(240, 100%, 93%);
-
-    margin-right: 24px;
-}
-
 nav > ul {
     display: flex;
     align-items: center;
@@ -107,7 +94,55 @@ nav > ul {
 }
 
 nav button {
-    transform: translateY(-0.15em)
+    background-color: transparent;
+    border: 2px solid hsl(240, 100%, 93%);
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: hsl(240, 100%, 93%);
+
+    margin-right: 24px;
+    transform: translateY(-0.15em);
+    display: grid;
+    grid-template-areas: "button";
+    place-content: center;
+}
+
+nav button::before {
+    grid-area: button;
+    margin: 0;
+    box-sizing: border-box;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    content: "";
+    background: linear-gradient(blue, 20%, rgb(104, 104, 255));
+    opacity: 0;
+    transition: opacity 150ms linear;
+}
+
+nav button > p {
+    grid-area: button;
+    align-self: center;
+}
+
+nav button:hover::before {
+    opacity: 1;
+}
+
+nav button:disabled {
+    transition: background-color 300ms ease-in-out;
+    background-color: hsl(240, 100%, 93%);
+    color: hsl(240, 100%, 79%);
+}
+
+/* Button is already disabled when
+noHover is added to button class, but this stops
+hover (and thus the animation) from firing */
+.noHover{
+    pointer-events: none;
 }
 
 /* FORM CONTENT */
@@ -183,6 +218,10 @@ input[type=text] {
     color: currentColor;
 }
 
+input[type=text]:focus {
+    outline: 3px solid blue;
+}
+
 input[type="radio"] {
     -webkit-appearance: none;
     appearance: none;
@@ -213,6 +252,10 @@ input[type="radio"]:checked::before {
     transform: scale(1);
 }
 
+input[type="radio"]:focus{
+    outline: 3px solid blue;
+}
+
 form button {
     font-size: 1.4rem;
     font-family: 'Thunder', sans-serif;
@@ -224,6 +267,10 @@ form button {
     border: none;
     background: linear-gradient(rgb(0, 0, 255), 30%, rgb(104, 104, 255));
     color: hsl(240, 100%, 93%);
+}
+
+form button:hover {
+    background: linear-gradient(rgb(38, 38, 255), 30%, rgb(128, 128, 255));
 }
 
 /* MAIN CONTENT */
@@ -272,7 +319,6 @@ article.book {
     font-weight: 400;
     text-transform: uppercase;
     color: hsl(240, 100%, 93%);
-    /*background: linear-gradient(hsl(240, 100%, 50%), 50%, hsl(240, 100%, 62%));*/
     background: none;
     width: 1rem;
     height: 1rem;
@@ -297,10 +343,15 @@ article[data-read="not-read"]{
     color: hsl(240, 100%, 70%);
 }
 
+article:hover {
+    color: hsl(240, 90%, 92%);
+    transition: color 300ms linear;
+}
+
 /** MAIN CONTENT- IN FOCUS **/
 .book-focus[data-read="not-read"],
 .book-focus[data-read="read"] {
-    outline: dashed blue 2px;
+    outline: solid blue 2px;
     outline-offset: 2px;
     border-radius: 4rem;
     z-index: 1;
@@ -310,5 +361,5 @@ article[data-read="not-read"]{
     margin-right: -36px;
     padding-right: 36px;
     background: linear-gradient(hsla(240, 100%, 50%, 0.7), 50%, hsla(240, 100%, 70%, 0.7));
-    color: hsl(240, 100%, 93%);
+    color: hsl(240, 90%, 92%);
 }
